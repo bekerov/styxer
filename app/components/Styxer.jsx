@@ -15,24 +15,35 @@ module.exports = class Layout extends React.Component {
         };
     }
 
-    createStyx () {
-        const styx = new Image();
-        styx.src = this.props.styx;
-        return styx;
+    drawDefaultImage (canvas, image) {
+        if (image.width > image.height) {
+            const factor = this.props.height/image.height;
+            canvas.drawImage(image, -((image.width*factor) - this.props.width)/2, 0, image.width*factor, this.props.height);
+        } else {
+            const factor = this.props.width/image.width;
+            canvas.drawImage(image, 0, -((image.height*factor) - this.props.height)/2, this.props.width, image.height*factor);
+        }
     }
 
-    onFileUpload (e) {
-        const {width, height} = this.props;
+    drawStyx (canvas) {
+        const styx = new Image();
+        styx.src = this.props.styx;
+        canvas.drawImage(styx, 0, 0, this.props.width, this.props.height);
+    }
+
+    onFileUpload () {
         const reader = new FileReader();
         const file = ReactDOM.findDOMNode(this.refs.fileInput).files[0];
         const image = new Image();
 
         reader.onloadend = () => {
             this.setState({imagePresent: true}, () => {
-                const canvas = ReactDOM.findDOMNode(this.refs.canvasField).getContext('2d');
                 image.src = reader.result;
-                canvas.drawImage(image, 0, 0);
-                canvas.drawImage(this.createStyx(), 0, 0, width, height);
+
+                const canvas = ReactDOM.findDOMNode(this.refs.canvasField).getContext('2d');
+
+                this.drawDefaultImage(canvas, image);
+                this.drawStyx(canvas);
             });
         };
 
