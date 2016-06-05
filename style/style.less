@@ -1,0 +1,45 @@
+@green: #81AA21;
+@gray: #F0F0F0;
+@white: #FFFFFF;
+@red: #FF5346;
+@dark: #1B2024;
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: @white;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding: 0 40px;
+
+  .styxer {
+    margin: 0 auto;
+  }
+}
+
+.styxer {
+  display: block;
+
+  label& {
+    border: 1px dashed #000;
+    position: relative;
+    overflow: hidden;
+  }
+
+  input {
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+  }
+}
